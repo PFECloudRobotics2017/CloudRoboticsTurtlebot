@@ -7,10 +7,6 @@ public class TurtlebotControl {
 	public String host = "";
 	private TurtlebotAPI api = null;
 	
-	/*String user = "turtlebot";
-	String password = "turtlebot";
-	String host = "193.51.236.39";*/
-	
 	public TurtlebotControl(String user, String password, String host) {
 		this.user = user;
 		this.password = password;
@@ -73,16 +69,5 @@ public class TurtlebotControl {
 		} catch (IOException | InterruptedException e) {
 			e.printStackTrace();
 		}		
-	}
-	
-	public static void main(String[] args) {
-		TurtlebotControl tbc = new TurtlebotControl("turtlebot", "turtlebot", "193.51.236.39");
-		tbc.connect();
-		
-		tbc.move_backward(2000);
-		tbc.turnLeft(2000);
-		tbc.move_forward(2000);
-		
-		tbc.disconnect();
 	}
 }
