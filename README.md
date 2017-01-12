@@ -77,8 +77,8 @@ La suite se passe sur le PC de commandes.
 
 CloudRoboticsTurtlebot est une API pour communiquer avec un turtlebot préparé. Voici un exemple de programme déplacer simplement le turtlebot :
 
-  TurtlebotControl tbc = new TurtlebotControl(hostname, password, ipaddress);
-	tbc.connect();
+	TurtlebotControl tbc = new TurtlebotControl(hostname, password, ipaddress);
+  	tbc.connect();
 	tbc.move_backward(2000);
 	tbc.turnLeft(2000);
 	tbc.move_forward(2000);
