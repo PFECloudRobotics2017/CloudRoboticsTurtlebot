@@ -69,7 +69,7 @@ La base Kobuki doit être physiquement allumée et les câbles reliés au Laptop
     
 Une fois *roscore* démarré, lancez la commande suivante :
 
-    roslaunch turtlebot_teleop keyboard_teleop.launch --screen
+    roslaunch turtlebot_bringup minimal.launch --screen
     
 La suite se passe sur le PC de commandes.
 
