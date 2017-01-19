@@ -52,15 +52,6 @@ Installez ssh :
 
     sudo apt-get install openssh-server
     
-Mettez à jour l'environnement (L'*IP_OF_TURTLEBOT* étant l'adresse ip du laptop):
-
-    echo export ROS_MASTER_URI=http://localhost:11311 >> ~/.bashrc
-    echo export ROS_HOSTNAME=IP_OF_TURTLEBOT >> ~/.bashrc
-    
-Lancez cette commande dans un nouveau terminal :
-
-    ls -n /dev | grep kobuki
-    
 ## Préparation du laptop pour recevoir la connexion du programme :
 
 La base Kobuki doit être physiquement allumée et les câbles reliés au Laptop. Démarrez ensuite deux terminaux. Lancer la commande suivante sur le premier terminal :
