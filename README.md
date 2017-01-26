@@ -54,6 +54,17 @@ Installez ssh :
     
 ## Préparation du laptop pour recevoir la connexion du programme :
 
+Avant toute chose, il faut vérifier que le Turtlebot ait son adresse IP bien configurée dans le bashrc. Pour ce faire, il vous faut éditer le bashrc. Vous pouvez utiliser nano ou votre éditeur favoris.
+
+    sudo nano ~/.bashrc
+    
+Vous trouverez les deux lignes suivantes, généralement vers la fin de ce fichier :
+
+    export ROS_MASTER_URI=http://xxx.xxx.xxx.xxx:11311
+    export ROS_HOSTNAME=xxx.xxx.xxx.xxx
+    
+Remplacez l'adresse IP (xxx.xxx.xxx.xxx) par celle de votre Turtlebot. Après cette étape il est important de redémarrer le terminal.
+
 La base Kobuki doit être physiquement allumée et les câbles reliés au Laptop. Démarrez ensuite deux terminaux. Lancer la commande suivante sur le premier terminal :
 
     roscore
