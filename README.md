@@ -1,7 +1,7 @@
 # CloudRoboticsTurtlebot
 *Master 2 Student project.*
 
-Il y a un projet, il est destiné à être utilisé sur le PC qui se connecte sur un Turtlebot. Il permet simplement de déplacer un turtlebot via connexion SSH.
+Ce pojet est destiné à être utilisé sur le PC qui se connecte sur un Turtlebot. Il permet simplement de déplacer un turtlebot via connexion SSH.
 
 ## Prérequis
 
