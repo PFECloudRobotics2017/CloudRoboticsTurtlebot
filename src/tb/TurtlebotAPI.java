@@ -13,6 +13,8 @@ public class TurtlebotAPI {
     private static PipedOutputStream pin;
     private static Session session;
     private static Channel channel;
+    
+    private boolean isConnected = true;
 
     public void connect(String user, String host, String password) {
         try {
@@ -53,60 +55,88 @@ public class TurtlebotAPI {
             Thread.sleep(2000);
 
             pin.write("roslaunch turtlebot_teleop keyboard_teleop.launch --screen\r\n".getBytes());
+            
+            isConnected = true;
 
             Thread.sleep(3000);
 
 
         } catch (Exception e) {
+        	isConnected = false;
             System.out.println(e);
         }
     }
 
     public void forward(int time) throws IOException {
-        long t = System.currentTimeMillis();
-        long end = t + time;
-        while (System.currentTimeMillis() < end) {
-            pin.write("i\r\n".getBytes());
-        }
+    	if (isConnected) {
+    		long t = System.currentTimeMillis();
+    		long end = t + time;
+    		while (System.currentTimeMillis() < end) {
+    			pin.write("i\r\n".getBytes());
+    		}
+    	} else {
+    		System.out.println("Turtlebot not connected...");
+    	}
     }
 
     public void backward(int time) throws IOException {
-        long t = System.currentTimeMillis();
-        long end = t + time;
-        while (System.currentTimeMillis() < end) {
-            pin.write(",\r\n".getBytes());
-        }
+    	if (isConnected) {
+    		long t = System.currentTimeMillis();
+    		long end = t + time;
+    		while (System.currentTimeMillis() < end) {
+    			pin.write(",\r\n".getBytes());
+    		}
+    	} else {
+    		System.out.println("Turtlebot not connected...");
+    	}
     }
 
     public void turnLeft(int time) throws IOException {
-        long t = System.currentTimeMillis();
-        long end = t + time;
-        while (System.currentTimeMillis() < end) {
-            pin.write("j\r\n".getBytes());
-        }
+    	if (isConnected) {
+    		long t = System.currentTimeMillis();
+    		long end = t + time;
+    		while (System.currentTimeMillis() < end) {
+    			pin.write("j\r\n".getBytes());
+    		}
+    	} else {
+    		System.out.println("Turtlebot not connected...");
+    	}
     }
 
     public void turnRight(int time) throws IOException {
-        long t = System.currentTimeMillis();
-        long end = t + time;
-        while (System.currentTimeMillis() < end) {
-            pin.write("l\r\n".getBytes());
-        }
+    	if (isConnected) {
+    		long t = System.currentTimeMillis();
+    		long end = t + time;
+    		while (System.currentTimeMillis() < end) {
+    			pin.write("l\r\n".getBytes());
+    		}
+    	} else {
+    		System.out.println("Turtlebot not connected...");
+    	}
     }
 
     public void stop(int time) throws IOException {
-        long t = System.currentTimeMillis();
-        long end = t + time;
-        while (System.currentTimeMillis() < end) {
-            pin.write(" \r\n".getBytes());
-        }
+    	if (isConnected) {
+    		long t = System.currentTimeMillis();
+    		long end = t + time;
+    		while (System.currentTimeMillis() < end) {
+    			pin.write(" \r\n".getBytes());
+    		}
+    	} else {
+    		System.out.println("Turtlebot not connected...");
+    	}
     }
 
     public void closeConnexion() throws IOException {
-        pin.write("exit\r\n".getBytes());
-        pin.close();
-        channel.disconnect();
-        session.disconnect();
+    	if (isConnected) {
+
+    		pin.write("exit\r\n".getBytes());
+    		pin.close();
+    		channel.disconnect();
+    		session.disconnect();
+    	} else {
+    		System.out.println("Turtlebot not connected...");
+    	}
     }
 
     public abstract class MyUserInfo implements UserInfo, UIKeyboardInteractive {
