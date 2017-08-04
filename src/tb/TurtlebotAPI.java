@@ -1,132 +1,145 @@
 package tb;
+
+import com.jcraft.jsch.*;
+
+import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
-import javax.swing.JOptionPane;
-
-import com.jcraft.jsch.Channel;
-import com.jcraft.jsch.JSch;
-import com.jcraft.jsch.Session;
-import com.jcraft.jsch.UIKeyboardInteractive;
-import com.jcraft.jsch.UserInfo;
-
 public class TurtlebotAPI {
-	private static InputStream in;
-	private static PipedOutputStream pin;
-	private static Session session;
-	private static Channel channel;
-	
-	public void connect(String user, String host, String password) {
-		try {
-			JSch jsch = new JSch();
+    private static InputStream in;
+    private static PipedOutputStream pin;
+    private static Session session;
+    private static Channel channel;
 
-			session = jsch.getSession(user, host, 22);
+    public void connect(String user, String host, String password) {
+        try {
+            JSch jsch = new JSch();
 
-			session.setPassword(password);
+            session = jsch.getSession(user, host, 22);
 
-			UserInfo ui = new MyUserInfo() {
-				public void showMessage(String message) {
-					JOptionPane.showMessageDialog(null, message);
-				}
+            session.setPassword(password);
 
-				public boolean promptYesNo(String message) {
-					Object[] options = { "yes", "no" };
-					int foo = JOptionPane.showOptionDialog(null, message, "Warning", JOptionPane.DEFAULT_OPTION,
-							JOptionPane.WARNING_MESSAGE, null, options, options[0]);
-					return foo == 0;
-				}
-			};
+            UserInfo ui = new MyUserInfo() {
+                public void showMessage(String message) {
+                    JOptionPane.showMessageDialog(null, message);
+                }
 
-			session.setUserInfo(ui);
-			session.setConfig("StrictHostKeyChecking", "no");
+                public boolean promptYesNo(String message) {
+                    Object[] options = {"yes", "no"};
+                    int foo = JOptionPane.showOptionDialog(null, message, "Warning", JOptionPane.DEFAULT_OPTION,
+                            JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+                    return foo == 0;
+                }
+            };
 
-			session.connect(30000);
+            session.setUserInfo(ui);
+            session.setConfig("StrictHostKeyChecking", "no");
 
-			channel = session.openChannel("shell");
+            session.connect(30000);
 
-			in = new PipedInputStream();
-			pin = new PipedOutputStream((PipedInputStream) in);
+            channel = session.openChannel("shell");
 
-			channel.setInputStream(in);
-			channel.setOutputStream(System.out);
+            in = new PipedInputStream();
+            pin = new PipedOutputStream((PipedInputStream) in);
 
-			channel.connect(3 * 1000);
+            channel.setInputStream(in);
+            channel.setOutputStream(System.out);
 
-			Thread.sleep(2000);
+            channel.connect(3 * 1000);
 
-			pin.write("roslaunch turtlebot_teleop keyboard_teleop.launch --screen\r\n".getBytes());
+            Thread.sleep(2000);
 
-			Thread.sleep(3000);
+            pin.write("roslaunch turtlebot_teleop keyboard_teleop.launch --screen\r\n".getBytes());
 
-			
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-	}
-	
-	public void forward(int time) throws IOException {
-		long t= System.currentTimeMillis();
-		long end = t+time;
-		while(System.currentTimeMillis() < end) {
-			pin.write("i\r\n".getBytes());
-		}
-	}
-	
-	public void backward(int time) throws IOException {
-		long t= System.currentTimeMillis();
-		long end = t+time;
-		while(System.currentTimeMillis() < end) {
-			pin.write(",\r\n".getBytes());
-		}
-	}
-	
-	public void turnLeft(int time) throws IOException {
-		long t= System.currentTimeMillis();
-		long end = t+time;
-		while(System.currentTimeMillis() < end) {
-			pin.write("j\r\n".getBytes());
-		}
-	}
-	
-	public void turnRight(int time) throws IOException {
-		long t= System.currentTimeMillis();
-		long end = t+time;
-		while(System.currentTimeMillis() < end) {
-			pin.write("l\r\n".getBytes());
-		}
-	}
-	
-	public void stop(int time) throws IOException {
-		long t= System.currentTimeMillis();
-		long end = t+time;
-		while(System.currentTimeMillis() < end) {
-			pin.write(" \r\n".getBytes());
-		}
-	}
-	
-	public void closeConnexion() throws IOException {
-		pin.write("exit\r\n".getBytes());
-		pin.close();
-		channel.disconnect();
-		session.disconnect();
-	}
-	
-	public abstract class MyUserInfo implements UserInfo, UIKeyboardInteractive {
-		public String getPassword() {return null;}
-		public boolean promptYesNo(String str) {return false;}
-		public String getPassphrase() {return null;}
-		public boolean promptPassphrase(String message) {return false;}
-		public boolean promptPassword(String message) {return false;}
-		public void showMessage(String message) {}
-		public String[] promptKeyboardInteractive(	String destination, 
-													String name, 
-													String instruction, 
-													String[] prompt,
-													boolean[] echo) {
-			return null;
-		}
-	}
+            Thread.sleep(3000);
+
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    public void forward(int time) throws IOException {
+        long t = System.currentTimeMillis();
+        long end = t + time;
+        while (System.currentTimeMillis() < end) {
+            pin.write("i\r\n".getBytes());
+        }
+    }
+
+    public void backward(int time) throws IOException {
+        long t = System.currentTimeMillis();
+        long end = t + time;
+        while (System.currentTimeMillis() < end) {
+            pin.write(",\r\n".getBytes());
+        }
+    }
+
+    public void turnLeft(int time) throws IOException {
+        long t = System.currentTimeMillis();
+        long end = t + time;
+        while (System.currentTimeMillis() < end) {
+            pin.write("j\r\n".getBytes());
+        }
+    }
+
+    public void turnRight(int time) throws IOException {
+        long t = System.currentTimeMillis();
+        long end = t + time;
+        while (System.currentTimeMillis() < end) {
+            pin.write("l\r\n".getBytes());
+        }
+    }
+
+    public void stop(int time) throws IOException {
+        long t = System.currentTimeMillis();
+        long end = t + time;
+        while (System.currentTimeMillis() < end) {
+            pin.write(" \r\n".getBytes());
+        }
+    }
+
+    public void closeConnexion() throws IOException {
+        pin.write("exit\r\n".getBytes());
+        pin.close();
+        channel.disconnect();
+        session.disconnect();
+    }
+
+    public abstract class MyUserInfo implements UserInfo, UIKeyboardInteractive {
+        public String getPassword() {
+            return null;
+        }
+
+        public boolean promptYesNo(String str) {
+            return false;
+        }
+
+        public String getPassphrase() {
+            return null;
+        }
+
+        public boolean promptPassphrase(String message) {
+            return false;
+        }
+
+        public boolean promptPassword(String message) {
+            return false;
+        }
+
+        public void showMessage(String message) {
+        }
+
+        public String[] promptKeyboardInteractive(String destination,
+                                                  String name,
+                                                  String instruction,
+                                                  String[] prompt,
+                                                  boolean[] echo) {
+            return null;
+        }
+    }
 
 }
