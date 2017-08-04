@@ -71,6 +71,8 @@ public class TurtlebotAPI {
     	if (isConnected) {
     		long t = System.currentTimeMillis();
     		long end = t + time;
+    		System.out.println("Turtlebot connected... " + end);
+
     		while (System.currentTimeMillis() < end) {
     			pin.write("i\r\n".getBytes());
     		}
